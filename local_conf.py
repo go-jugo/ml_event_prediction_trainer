@@ -1,0 +1,9 @@
+#raw_data_path = 'E:\Code\Fraeswerk/*.gz'
+local_workers = 1
+local_threads_per_worker=1
+local_memory_limit='32GB'
+sample_size = 1
+draw_sample = False
+pool_size = 1
+only_base_conf_run = False
+server = False
