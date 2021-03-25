@@ -15,7 +15,6 @@ from .feature_engineering.create_error_code_col import create_error_code_col
 from types import SimpleNamespace
 from dask import dataframe as dd
 import pickle
-import openpyxl
 
 init_logger(logging_level, logging_color)
 
