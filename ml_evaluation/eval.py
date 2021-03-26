@@ -14,7 +14,7 @@ logger = get_logger(__name__.split(".", 1)[-1])
 @timing
 def eval(X, y, config, crossvalidation, clf, random_state):
 
-    print('Configurations: ' + str(config))
+    logger.debug('Configurations: ' + str(config))
 
     def tp(y_true, y_pred): return confusion_matrix(y_true, y_pred, labels=[1, 0])[0, 0]
     def tn(y_true, y_pred): return confusion_matrix(y_true, y_pred, labels=[1, 0])[1, 1]
@@ -69,13 +69,13 @@ def eval(X, y, config, crossvalidation, clf, random_state):
                 scores[element] = np.array(scores[element])
         else:
             scores = cross_validate(clf.fit(X_rus, y_rus), X=X_rus, y=y_rus, cv=cv, scoring=scoring, return_estimator=False)
-            print('Evaluation with crossvalidation')
+            logger.debug('Evaluation with crossvalidation')
 
         for key, value in scores.items():
-            print(str(key))
-            print(value)
-            print('M: ' + str(value.mean()))
-            print('SD: ' + str(value.std()))
+            logger.debug(str(key))
+            logger.debug(value)
+            logger.debug('M: ' + str(value.mean()))
+            logger.debug('SD: ' + str(value.std()))
 
         final_model = clf.fit(X,y)
 
