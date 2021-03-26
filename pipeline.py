@@ -37,6 +37,10 @@ def clf_from_pickle_bytes(pickle_bytes: bytes):
     return pickle.loads(pickle_bytes)
 
 
+def clf_to_pickle_bytes(clf):
+    return pickle.dumps(clf)
+
+
 def run_pipeline(df, config):
     c = SimpleNamespace(**config)
     logger.debug('Data cleansing')
