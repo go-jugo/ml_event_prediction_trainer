@@ -22,7 +22,7 @@ def one_hot_encode_categories(df, errorcode_col, v_dask=True):
             df = dd.concat([df, df_dummy], axis=1)
         else:
             df = pd.concat([df, df_dummy], axis=1)
-        print('Number of Columns for one hot encoding : ' + str(len(non_numeric_columns_list)))
+        logger.debug('Number of Columns for one hot encoding : ' + str(len(non_numeric_columns_list)))
 
     df = dask_repartition(df)
 
