@@ -38,10 +38,10 @@ def calculate_window(df, window_start_date, window_end_date, element, minimal_fe
 
     if minimal_features:
         extracted_features = extract_features(df_window, column_id='id', n_jobs=0,
-                                              default_fc_parameters=MinimalFCParameters())
+                                              default_fc_parameters=MinimalFCParameters(), disable_progressbar=not debug_mode)
     else:
         extracted_features = extract_features(df_window, column_id='id', column_sort='global_timestamp', n_jobs=0,
-                                              default_fc_parameters=EfficientFCParameters())
+                                              default_fc_parameters=EfficientFCParameters(), disable_progressbar=not debug_mode)
 
     extracted_features['global_timestamp'] = global_timestamp
     extracted_features[errorcode_col] = errorcode_value
