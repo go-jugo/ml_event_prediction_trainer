@@ -28,7 +28,7 @@ def calculate_window(df, window_start_date, window_end_date, element, minimal_fe
     df_window['id'] = 1
 
     if df_window.empty:
-        print('Empty')
+        logger.debug('Empty')
         if extract_negative_examples:
             return pd.DataFrame(data={'global_timestamp': [global_timestamp]})
         else:
@@ -97,7 +97,7 @@ def extract_windows_and_features(df, error_code_series, errorcode_col, errorcode
                                                        window_end, window_length, negative_examples=False)
     number_of_errors = len(df_process)
 
-    print('Number of errorCode Features to process: ' + str(len(df_process)))
+    logger.debug('Number of errorCode Features to process: ' + str(len(df_process)))
 
     if number_of_errors < 5:
         raise ValueError('Not enough data to generate ML model')
@@ -111,14 +111,14 @@ def extract_windows_and_features(df, error_code_series, errorcode_col, errorcode
         raise ValueError('Not enough data to generate ML model')
 
     df_balance = df_balance.sample(n=number_of_non_errors)
-    print('Number of Default Features to process: ' + str(len(df_balance)))
+    logger.debug('Number of Default Features to process: ' + str(len(df_balance)))
 
     if len(df_process) > 0:
         df_process = pd.concat([df_process, df_balance])
     else:
         df_process = df_balance
 
-    print('Number of total Features to process: ' + str(len(df_process)))
+    logger.debug('Number of total Features to process: ' + str(len(df_process)))
     df_process = df_process.squeeze('columns')
     process_list = list(zip(df_process.index, df_process))
 
@@ -136,9 +136,6 @@ def extract_windows_and_features(df, error_code_series, errorcode_col, errorcode
     else:
         df_tsfresh = pd.DataFrame()
     df_tsfresh = df_tsfresh.reset_index(drop=True)
-    print('Number of Features extraced: ' + str(len(df_tsfresh)))
+    logger.debug('Number of Features extraced: ' + str(len(df_tsfresh)))
 
     return df_tsfresh
-
-
-
