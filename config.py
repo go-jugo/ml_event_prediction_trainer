@@ -41,22 +41,22 @@ base_config = json.loads(os.getenv("ML_BASE_CONFIG")) if os.getenv("ML_BASE_CONF
 )
 
 
-def configs_from_dict(config: dict) -> list:
+def configs_from_dict(config: dict, init: bool = True) -> list:
     conf = base_config.copy()
     conf.update(config)
     if "scaler" in conf:
-        conf["scaler"] = [scaler_map[scaler]() for scaler in conf["scaler"].copy()]
+        conf["scaler"] = [scaler_map[scaler]() if init else scaler for scaler in conf["scaler"].copy()]
     else:
-        conf["scaler"] = [scaler_map[default_scaler]()]
+        conf["scaler"] = [scaler_map[default_scaler]() if init else default_scaler]
     if "ml_algorithm" in conf:
-        conf["ml_algorithm"] = [ml_algorithm_map[ml_algorithm]() for ml_algorithm in conf["ml_algorithm"].copy()]
+        conf["ml_algorithm"] = [ml_algorithm_map[ml_algorithm]() if init else ml_algorithm for ml_algorithm in conf["ml_algorithm"].copy()]
     else:
-        conf["ml_algorithm"] = [ml_algorithm_map[default_ml_algorithm]()]
+        conf["ml_algorithm"] = [ml_algorithm_map[default_ml_algorithm]() if init else default_ml_algorithm]
     return [dict(zip(conf, v)) for v in product(*conf.values())]
 
 
-def configs_from_json(config: str) -> list:
-    return configs_from_dict(json.loads(config))
+def configs_from_json(config: str, init: bool = True) -> list:
+    return configs_from_dict(json.loads(config), init)
 
 
 def config_from_dict(config: dict) -> dict:
