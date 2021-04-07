@@ -27,7 +27,7 @@ scaler_map = {
 }
 
 
-base_config = dict(
+base_config = json.loads(os.getenv("ML_BASE_CONFIG")) if os.getenv("ML_BASE_CONFIG") else dict(
     sampling_frequency=["5S"],
     imputations_technique_str=["pad"],
     imputation_technique_num=["pad"],
