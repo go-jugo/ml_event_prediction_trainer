@@ -12,6 +12,7 @@ default_ml_algorithm = os.getenv("ML_DEFAULT_ALGORITHM", "RandomForestClassifier
 logging_level = os.getenv("ML_LOGGING_LEVEL", "info")
 logging_color = int(os.getenv("ML_LOGGING_COLOR", 0))
 v_dask = int(os.getenv("ML_V_DASK", 1))
+dtype_inference_sample = int(os.getenv("DTYPE_INFERENCE_SAMPLE", 512000))
 
 debug_mode = True if logging_level == "debug" else False
 write_monitoring = False

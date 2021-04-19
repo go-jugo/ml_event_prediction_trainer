@@ -1,4 +1,4 @@
-from .config import v_dask, logging_level, logging_color
+from .config import v_dask, logging_level, logging_color, dtype_inference_sample
 from .logger import init_logger, get_logger
 # import pandas as pd
 # import numpy as np
@@ -22,7 +22,7 @@ logger = get_logger(__name__.split(".", 1)[-1])
 
 
 def df_from_csv(csv_path: str, time_col: str, sorted=False):
-    df: dd.DataFrame = dd.read_csv(csv_path)
+    df: dd.DataFrame = dd.read_csv(csv_path, sample=dtype_inference_sample)
     df[time_col] = dd.to_datetime(df[time_col])
     df = df.set_index(time_col, sorted=sorted)
     return df
