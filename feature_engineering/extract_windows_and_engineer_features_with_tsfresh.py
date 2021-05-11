@@ -17,10 +17,10 @@ from datetime import timezone
 logger = get_logger(__name__.split(".", 1)[-1])
 
 
-def calculate_window(df, window_start_date, window_end_date, element, minimal_features, window_length, errorcode_col,
+def calculate_window(df_window, window_start_date, window_end_date, element, minimal_features, window_length, errorcode_col,
                      extract_negative_examples=False):
 
-    df_window = df.loc[window_start_date:window_end_date].copy()
+    #df_window = df.loc[window_start_date:window_end_date].copy()
 
     global_timestamp = element[0]
     errorcode_value = element[1]
@@ -121,13 +121,13 @@ def extract_windows_and_features(df, error_code_series, errorcode_col, errorcode
     logger.debug('Number of total Features to process: ' + str(len(df_process)))
     df_process = df_process.squeeze('columns')
     process_list = list(zip(df_process.index, df_process))
-
     lazy_results = []
     if v_dask:
         for element in process_list:
             window_start_date = element[0] - datetime.timedelta(seconds=(window_length + window_end))
             window_end_date = element[0] - datetime.timedelta(seconds=(window_end))
-            lazy_result = dask.delayed(calculate_window)(df, window_start_date, window_end_date, element,
+            df_window = df.loc[window_start_date:window_end_date].copy()
+            lazy_result = dask.delayed(calculate_window)(df_window, window_start_date, window_end_date, element,
                                                          minimal_features, window_length, errorcode_col)
             lazy_results.append(lazy_result)
     lazy_results = dask.compute(*lazy_results)
